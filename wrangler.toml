@@ -1,0 +1,6 @@
+name = "heimdell"
+main = "src/index.ts"
+compatibility_date = "2023-01-23"
+
+account_id = "16ae3d476dc03f5392c0f2aa99d3ca31"
+route = { pattern = "phishing.fyi/*", zone_name = "phishing.fyi" }
