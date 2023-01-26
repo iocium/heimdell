@@ -1,10 +1,10 @@
 export default class Urlscan {
-    constructor(url: any, token: any, visibility: any = "unlisted") {
+    constructor(url: any, env: any, visibility: any = "unlisted") {
         this.url = url;
-        this.token = token;
         this.visibility = visibility;
 
         this._endpoint = "https://urlscan.io/api/v1";
+        this.env = env;
     }
 
     async get(id) {
@@ -31,7 +31,7 @@ export default class Urlscan {
                 'tags': ['phishing.fyi']
             }),
             headers: {
-                'API-Key': this.token,
+                'API-Key': this.env.URLSCAN_TOKEN,
                 'Content-Type': 'application/json'
             }
         })
