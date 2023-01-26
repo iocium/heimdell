@@ -4,3 +4,7 @@ compatibility_date = "2023-01-23"
 
 account_id = "16ae3d476dc03f5392c0f2aa99d3ca31"
 route = { pattern = "phishing.fyi/*", zone_name = "phishing.fyi" }
+
+kv_namespaces = [
+  { binding = "KV", id = "9fbf4b2828764a3ca759f3a1e2efa9af" }
+]
