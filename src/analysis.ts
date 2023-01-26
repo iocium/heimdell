@@ -45,7 +45,7 @@ export default class Analysis {
 
         // Next, we need to check for some other services, but they may need keys
         if (this.env.URLSCAN_TOKEN) {
-            let urlscan: any = new Urlscan(this.url, this.env.URLSCAN_TOKEN)
+            let urlscan: any = new Urlscan(this.url, this.env)
             this.urlscan = await urlscan.submit();
             resp.urlscan = this.urlscan;
         }
