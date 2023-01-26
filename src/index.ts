@@ -80,9 +80,14 @@ router.post('/submit', async (req, env, ctx) => {
                 }
             }
         }
-    } 
+    }
+
+    // We analysed this successfully, so we prepare our response
     resp.success = true;
     resp.results = res;
+
+    // And now, we save the output to KV
+    await env.KV.put(resp.results.id, JSON.stringify(resp));
 
     return new Response(JSON.stringify(resp, null, 2), { headers: { 'Content-Type': 'application/json' }})
 })
