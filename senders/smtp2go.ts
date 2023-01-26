@@ -12,7 +12,6 @@ export default class SMTP2GO {
             "api_key": this.env.SMTP2GO_TOKEN,
             "to": [this.email],
             "sender": `${this.variables.id}@report.phishing.fyi`,
-            "subject": `[Notice] Phishing detected on your infrastructure (${this.variables.id})`,
             "custom_headers": [{
                 "header": "Reply-To",
                 "value": "reports@phishing.fyi"
@@ -21,7 +20,8 @@ export default class SMTP2GO {
             "template_data": {
                 "url": this.variables.url.replaceAll('.', '[.]'),
                 "urlscan": this.variables.urlscan.result,
-                "dns": this.variables.dns.join(',')
+                "dns": this.variables.dns.join(','),
+                "id": this.variables.id
             }
         }
 
