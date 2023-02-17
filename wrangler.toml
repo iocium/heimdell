@@ -6,5 +6,5 @@ account_id = "16ae3d476dc03f5392c0f2aa99d3ca31"
 route = { pattern = "phishing.fyi/*", zone_name = "phishing.fyi" }
 
 kv_namespaces = [
-  { binding = "KV", id = "9fbf4b2828764a3ca759f3a1e2efa9af" }
+  { binding = "KV", id = "9fbf4b2828764a3ca759f3a1e2efa9af", preview_id = "9fbf4b2828764a3ca759f3a1e2efa9af" }
 ]
