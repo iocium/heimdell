@@ -1,11 +1,34 @@
 import { Router } from 'itty-router'
 import SMTP2GO from '../senders/smtp2go';
 import Analysis from './analysis';
+import Package from '../package.json';
 
 const router = Router()
 const noContact = [
     'abuse@cloudflare.com'
 ]
+
+router.get('/report/:id', async (req, env, ctx) => {
+    const { params, query } = req
+
+    let resp: any = {
+        success: false
+    }
+
+    // Now, fetch the report from KV
+    let data = await env.KV.get(params.id);
+    if (data == null) {
+        resp.message = 'That report was not found, or may have expired'
+        return new Response(JSON.stringify(resp, null, 2), { headers: { 'Content-Type': 'application/json' }})
+    }
+
+    // Now we get our data
+    resp.results = JSON.parse(data);
+
+    // And return it
+    resp.success = true;
+    return new Response(JSON.stringify(resp, null, 2), { headers: { 'Content-Type': 'application/json' }})
+})
 
 router.post('/submit', async (req, env, ctx) => {
 
@@ -59,7 +82,7 @@ router.post('/submit', async (req, env, ctx) => {
                 }
                 else {
                     // We have the e-mail, so let's see what we're using
-                    if (env.SMTP2GO_TOKEN) {
+                    if (env.SMTP2GO_TOKEN && res.urlscan.result) {
                         // We're going to use SMTP2GO
                         let smtp2go: any = new SMTP2GO(e, res, env);
                         smtp2go = await smtp2go.send();
@@ -77,6 +100,12 @@ router.post('/submit', async (req, env, ctx) => {
                             }
                         }
                     }
+                    else {
+                        res.email[e] = {
+                            'success': false,
+                            'message': `Unable to send e-mail to ${e} as e-mail has been disabled`
+                        }
+                    }
                 }
             }
         }
@@ -90,6 +119,14 @@ router.post('/submit', async (req, env, ctx) => {
     await env.KV.put(resp.results.id, JSON.stringify(resp));
 
     return new Response(JSON.stringify(resp, null, 2), { headers: { 'Content-Type': 'application/json' }})
+})
+
+router.get('/version', (req, env, ctx) => {
+    return new Response(Package.version, {
+        headers: {
+            'Content-Type': 'text/plain'
+        }
+    })
 })
 
 router.get('/', (req, env, ctx) => {
