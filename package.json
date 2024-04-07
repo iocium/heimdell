@@ -12,7 +12,7 @@
     "deploy": "wrangler publish"
   },
   "dependencies": {
-    "itty-router": "^4.2.2",
+    "itty-router": "^5.0.9",
     "nanoid": "^5.0.6",
     "uuid": "^9.0.1"
   }
